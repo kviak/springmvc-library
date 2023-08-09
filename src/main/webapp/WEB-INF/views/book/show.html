@@ -18,10 +18,10 @@
 </div>
 
 <div th:if="${people}">
-    <form th:method="PATCH" th:action="@{/book/set}">
+    <form th:method="PATCH" th:action="@{/book/set/{id}(id=${book.getId()})}">
         <label for="person">Choose person</label>
-        <select th:object="${person}" th:field="*{fullName}" id="person">
-            <option th:each="person : ${people}" th:value="${person.getId() + ' ' + book.getId()}"
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person : ${people}" th:value="${person.getId()}"
                     th:text="${person.getFullName()}"></option>
         </select>
 

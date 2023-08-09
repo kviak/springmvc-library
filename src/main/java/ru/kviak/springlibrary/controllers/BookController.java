@@ -57,9 +57,9 @@ public class BookController {
         return "redirect:/book/"+id;
     }
 
-    @PatchMapping("/set")
-    public String set(@ModelAttribute("person") Person person){
-        bookDAO.set(person.getFullName());
+    @PatchMapping("/set/{id}")
+    public String set(@ModelAttribute("person") Person person, @PathVariable("id") int id){
+        bookDAO.set(id, person.getId());
         return "redirect:/book";
     }
 

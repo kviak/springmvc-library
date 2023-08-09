@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import ru.kviak.springlibrary.models.Book;
 import ru.kviak.springlibrary.models.Person;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,15 +47,8 @@ public class BookDAO {
                 book.getTitle(), book.getAuthor(), book.getYearOfPublic());
     }
 
-    public void set(String id){ // metad gavna, don't judge me, im try to rework
-        int[] numbers = Arrays.stream(id.split("\\s"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        int person_id = numbers[0];
-        int book_id = numbers[1];
-
-        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?",
-                person_id, book_id);
+    public void set(int bookId, int personId){ // vsyo teper' ne govna
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?", personId, bookId);
     }
 
     public Optional<Person>isHadOwner(int id){
