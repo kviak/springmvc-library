@@ -38,20 +38,22 @@ public class BookDAO {
                 .orElse(null); // Хотя бы один объект или NULL.
     }
 
+    public void update(int id,Book updateBook){
+        jdbcTemplate.update("UPDATE Book SET title=?, author=?, yearofpublic=? WHERE id=?",
+                updateBook.getTitle(), updateBook.getAuthor(), updateBook.getYearOfPublic(), id);
+    }
+
     public void create(Book book){
         jdbcTemplate.update("INSERT INTO Book(title, author, yearofpublic) VALUES (?,?,?)",
                 book.getTitle(), book.getAuthor(), book.getYearOfPublic());
     }
 
-    public void set(String id){
+    public void set(String id){ // metad gavna, don't judge me, im try to rework
         int[] numbers = Arrays.stream(id.split("\\s"))
                 .mapToInt(Integer::parseInt)
                 .toArray();
-        System.out.println(Arrays.toString(numbers));
         int person_id = numbers[0];
         int book_id = numbers[1];
-        System.out.println("Person: " + person_id); // GAVNA
-        System.out.println("Book: " + book_id);
 
         jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?",
                 person_id, book_id);
@@ -65,6 +67,10 @@ public class BookDAO {
 
     public void free(int id){
         jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?", null, id);
+    }
+
+    public void delete(int id){
+        jdbcTemplate.update("DELETE FROM Book WHERE id=?",id);
     }
 
 

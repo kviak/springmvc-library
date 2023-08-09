@@ -7,12 +7,15 @@
 <body>
 
 
-<form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
-    <label for="fullName">Enter full name:</label>
-    <input type="text" th:field="*{fullName}" id="fullName"/>
+<form th:method="PATCH" th:action="@{/book/{id}(id=${book.getId()})}" th:object="${book}">
+    <label for="title">Enter title:</label>
+    <input type="text" th:field="*{title}" id="title"/>
     <br/>
-    <label for="birthYear">Enter birth Year:</label>
-    <input type="text" th:field="*{birthYear}" id="birthYear"/>
+    <label for="author">Enter author:</label>
+    <input type="text" th:field="*{author}" id="author"/>
+    <br/>
+    <label for="yearOfPublic">Enter year of public:</label>
+    <input type="text" th:field="*{yearOfPublic}" id="yearOfPublic"/>
     <br/>
     <input type="submit" value="Select!"/>
 </form>

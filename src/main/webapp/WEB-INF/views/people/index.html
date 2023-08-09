@@ -5,7 +5,7 @@
     <title>People</title>
 </head>
 <body>
-PEOPLE LIST!
+PEOPLE LIST:
 <br/>
 
 <div th:each="person: ${people}">
@@ -13,6 +13,7 @@ PEOPLE LIST!
        th:text="${person.getFullName() + ' - ' + person.getBirthYear()}">user</a>
 </div>
 
+<hr/>
 <form th:method="GET" th:action="@{/people/new}">
     <input type="submit" value="Create new"/>
 </form>

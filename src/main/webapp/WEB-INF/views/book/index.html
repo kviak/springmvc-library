@@ -5,14 +5,14 @@
     <title>Books</title>
 </head>
 <body>
-BOOK LIST!
+BOOK LIST:
 <br/>
 
 <div th:each="book: ${books}">
   <a th:href="@{/book/{id}(id=${book.getId()})}"
      th:text="${book.getTitle() +' '+ book.getYearOfPublic() + ' - '  + book.getAuthor()}">user</a>
 </div>
-
+<hr/>
 <form th:method="GET" th:action="@{/book/new}">
     <input type="submit" value="Create new"/>
 </form>
