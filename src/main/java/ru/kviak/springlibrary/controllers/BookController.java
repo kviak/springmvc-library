@@ -3,22 +3,25 @@ package ru.kviak.springlibrary.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.kviak.springlibrary.dao.BookDAO;
+import ru.kviak.springlibrary.dao.PersonDAO;
 import ru.kviak.springlibrary.models.Book;
+import ru.kviak.springlibrary.models.Person;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/book")
 public class BookController {
 
     private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BookController(BookDAO bookDAO) {
+    public BookController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -33,6 +36,30 @@ public class BookController {
     @PostMapping()
     public String create(@ModelAttribute("book") Book book){
         bookDAO.create(book);
+        return "redirect:/book";
+    }
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person")Person person){
+
+        Optional<Person> bookOwner = bookDAO.isHadOwner(id);
+        if (bookOwner.isPresent())
+            model.addAttribute("owner", bookOwner.get());
+        else
+            model.addAttribute("people", personDAO.index());
+        model.addAttribute("book", bookDAO.show(id));
+
+        return "book/show";
+    }
+    @PatchMapping("/{id}/release")
+    public String release(@PathVariable("id") int id){
+        bookDAO.free(id);
+        return "redirect:/book/"+id;
+    }
+
+    @PatchMapping("/set")
+    public String set(@ModelAttribute("person") Person person){
+        bookDAO.set(person.getFullName());
         return "redirect:/book";
     }
 }

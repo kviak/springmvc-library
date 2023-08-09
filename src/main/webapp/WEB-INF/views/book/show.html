@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+<body>
+
+
+<p th:text="${book.getTitle() + ', ' + book.getYearOfPublic() + ' - ' + book.getAuthor()}">book</p>
+
+<div th:if="${owner}">
+    <span>Book now have: </span> <span th:text="${owner.getFullName()}">Person name</span>
+
+    <form th:method="PATCH" th:action="@{/book/{id}/release(id=${book.getId()})}">
+        <input type="submit" value="free book"/>
+    </form>
+</div>
+
+<div th:if="${people}">
+    <form th:method="PATCH" th:action="@{/book/set}">
+        <label for="person">Choose person</label>
+        <select th:object="${person}" th:field="*{fullName}" id="person">
+            <option th:each="person : ${people}" th:value="${person.getId() + ' ' + book.getId()}"
+                    th:text="${person.getFullName()}"></option>
+        </select>
+
+        <input type="submit" value="Select"/>
+    </form>
+</div>
+
+<form th:method="GET" th:action="@{/book/{id}/edit(id=${book.getId()})}">
+    <input type="submit" value="Update"/>
+</form>
+<br/>
+
+<form th:method="DELETE" th:action="@{/book/{id}(id=${book.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+</body>
+</html>
