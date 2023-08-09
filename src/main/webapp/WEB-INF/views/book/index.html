@@ -13,5 +13,9 @@ BOOK LIST!
      th:text="${book.getTitle() +' '+ book.getYearOfPublic() + ' - '  + book.getAuthor()}">user</a>
 </div>
 
+<form th:method="GET" th:action="@{/book/new}">
+    <input type="submit" value="Create new"/>
+</form>
+
 </body>
 </html>

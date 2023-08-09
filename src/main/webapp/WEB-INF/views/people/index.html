@@ -13,5 +13,8 @@ PEOPLE LIST!
        th:text="${person.getFullName() + ' - ' + person.getBirthYear()}">user</a>
 </div>
 
+<form th:method="GET" th:action="@{/people/new}">
+    <input type="submit" value="Create new"/>
+</form>
 </body>
 </html>

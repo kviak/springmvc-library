@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+
 public class Book {
 
     private int id;
@@ -15,7 +16,7 @@ public class Book {
     @Size(min=1, max=100, message = "Author length should be between 1 and 100 characters")
     private String author;
 
-    private int personId;
+    //private int person_id;
     @NotEmpty
     @Min(value = 1500, message = "The book must be published later than 1500")
     @Max(value = 2023, message = "Took could not be published later 2023")
@@ -23,11 +24,10 @@ public class Book {
 
     public Book(){}
 
-    public Book(int id, String title, String author, int personId, int yearOfPublic) {
+    public Book(int id, String title, String author, int yearOfPublic) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.personId = personId;
         this.yearOfPublic = yearOfPublic;
     }
 
@@ -53,14 +53,6 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
     }
 
     public int getYearOfPublic() {
