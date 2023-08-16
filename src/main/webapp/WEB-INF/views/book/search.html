@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/book/search}" th:object="${book}">
+    <label for="title">Enter title book:</label>
+    <input type="text" th:field="*{title}" id="title"/><br/>
+    <input type="submit" value="Search!"/>
+</form><hr/>
+<label>Finding book: </label><br/>
+<div th:switch="${book.id}">
+    <p th:case="0">Missing book with the specified title.</p>
+    <div th:case="*">
+        <span th:text="${'ID: '+book.getId()+', '}"></span>
+        <span th:text="${book.getAuthor()+' - '}"></span>
+        <a th:href="@{/book/{id}(id=${book.getId()})}" th:text="${book.getTitle()}"></a>
+        <!--Look like GOVNO, but working-->
+        <span th:text="${', ' + book.getPublishingYear()}"></span><br/>
+        <span>Book is located at: </span>
+        <a th:href="@{/people/{id}(id=${book.getOwner().getId()})}" th:text="${book.getOwner().getFullName()}"></a>
+    </div>
+</div>
+</body>
+</html>

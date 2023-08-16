@@ -10,7 +10,7 @@ BOOK LIST:
 
 <div th:each="book: ${books}">
   <a th:href="@{/book/{id}(id=${book.getId()})}"
-     th:text="${book.getTitle() +' '+ book.getYearOfPublic() + ' - '  + book.getAuthor()}">user</a>
+     th:text="${book.getTitle() +' '+ book.getPublishingYear() + ' - '  + book.getAuthor()}">user</a>
 </div>
 <hr/>
 <form th:method="GET" th:action="@{/book/new}">
