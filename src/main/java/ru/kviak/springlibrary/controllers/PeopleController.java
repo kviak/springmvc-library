@@ -1,6 +1,6 @@
 package ru.kviak.springlibrary.controllers;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +9,10 @@ import ru.kviak.springlibrary.services.PeopleService;
 
 @Controller
 @RequestMapping("/people")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PeopleController {
 
     private final PeopleService peopleService;
-
 
     @GetMapping()
     public String index(Model model){

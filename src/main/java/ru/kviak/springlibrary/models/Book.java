@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -15,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "book")
+@ToString
 public class Book {
 
     @Id
@@ -34,7 +32,7 @@ public class Book {
 
     @Min(value = 1500, message = "The book must be published later than 1500")
     @Column(name = "year")
-    private int yearOfPublic;
+    private int publishingYear;
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")

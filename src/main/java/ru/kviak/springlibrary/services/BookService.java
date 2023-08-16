@@ -1,6 +1,8 @@
 package ru.kviak.springlibrary.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kviak.springlibrary.models.Book;
@@ -22,9 +24,14 @@ public class BookService{
     }
 
     @Transactional(readOnly = true)
-    public Book findById(int id){
-        Optional<Book> foundBook = bookRepository.findById(id);
-        return foundBook.orElse(null);
+    public List<Book> findAll(int page, int perBooks, boolean sort){
+        if (sort) return bookRepository.findAll(PageRequest.of(page,perBooks, Sort.by("publishingYear"))).getContent();
+            else return bookRepository.findAll(PageRequest.of(page, perBooks)).getContent();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Book> findById(int id){
+        return bookRepository.findById(id);
     }
 
     @Transactional
@@ -56,11 +63,16 @@ public class BookService{
     }
 
     @Transactional
-    public Optional<Person>isHadOwner(int id){
-
+    public Optional<Person>hasOwner(int id){
         Optional<Book> foundBook = bookRepository.findById(id);
         return Optional.ofNullable(foundBook.orElse(null).getOwner());
     }
 
-
+    @Transactional
+    public Optional<Book>search(String title){
+        if (title.isEmpty()) // Если поисковая строка пришла пустой, возращаем пустую книгу
+            return Optional.of(new Book());
+        List<Book> list = bookRepository.findByTitleStartingWith(title);
+        return list.isEmpty() ? Optional.of(new Book()) : Optional.of(list.get(0));
+    }
 }

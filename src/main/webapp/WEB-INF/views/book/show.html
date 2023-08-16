@@ -7,7 +7,7 @@
 <body>
 
 
-<p th:text="${book.getTitle() + ', ' + book.getYearOfPublic() + ' - ' + book.getAuthor()}">book</p>
+<p th:text="${book.getTitle() + ', ' + book.getPublishingYear() + ' - ' + book.getAuthor()}">book</p>
 
 <div th:if="${owner}">
     <span>Book now have: </span> <span th:text="${owner.getFullName()}">Person name</span>

@@ -1,6 +1,6 @@
 package ru.kviak.springlibrary.controllers;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +14,18 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/book")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
     private final PeopleService peopleService;
 
-
-    @GetMapping()
-    public String index(Model model){
-        model.addAttribute("books", bookService.findAll());
+    @GetMapping("")
+    public String index(@RequestParam(defaultValue = "false", name = "sort") boolean sort,
+                        @RequestParam(defaultValue = "0",name = "page") int page,
+                        @RequestParam (defaultValue = "100",name ="books_per_page") int perBooks, Model model,
+                        @ModelAttribute("person")Person person){
+        model.addAttribute("books", bookService.findAll(page, perBooks, sort));
         return "book/index";
     }
 
@@ -40,14 +42,12 @@ public class BookController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person")Person person){
-
-        Optional<Person> bookOwner = bookService.isHadOwner(id);
+        Optional<Person> bookOwner = bookService.hasOwner(id);
         if (bookOwner.isPresent())
             model.addAttribute("owner", bookOwner.get());
         else
             model.addAttribute("people", peopleService.findAll());
-        model.addAttribute("book", bookService.findById(id));
-
+        model.addAttribute("book", bookService.findById(id).orElse(null));
         return "book/show";
     }
 
@@ -71,7 +71,7 @@ public class BookController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id){
-        model.addAttribute("book", bookService.findById(id));
+        model.addAttribute("book", bookService.findById(id).orElse(null));
         return "book/edit";
     }
 
@@ -80,4 +80,13 @@ public class BookController {
         bookService.update(id, book);
         return "redirect:/book";
     }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(defaultValue = "", name = "title") String title, Model model){
+        Optional<Book> s = bookService.search(title);
+        System.out.println(s);
+        if (s.isPresent()) model.addAttribute(s.get());
+        return "book/search";
+    }
+
 }
