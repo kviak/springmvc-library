@@ -1,6 +1,6 @@
 package ru.kviak.springlibrary.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +14,12 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/book")
+@AllArgsConstructor
 public class BookController {
 
     private final BookService bookService;
     private final PeopleService peopleService;
 
-    @Autowired
-    public BookController(BookService bookService, PeopleService peopleService) {
-        this.bookService = bookService;
-        this.peopleService = peopleService;
-    }
 
     @GetMapping()
     public String index(Model model){

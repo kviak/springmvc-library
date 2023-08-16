@@ -1,5 +1,6 @@
 package ru.kviak.springlibrary.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kviak.springlibrary.models.Book;
@@ -10,13 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class PeopleService {
 
     private final PeopleRepository peopleRepository;
 
-    public PeopleService(PeopleRepository peopleRepository) {
-        this.peopleRepository = peopleRepository;
-    }
 
     @Transactional(readOnly = true)
     public List<Person> findAll(){

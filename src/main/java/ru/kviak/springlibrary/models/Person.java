@@ -4,10 +4,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -28,43 +35,4 @@ public class Person {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner") // Изменить на lazy.
     private List<Book> items;
-
-    public Person() {}
-    public Person(int id, int birthYear, String fullName) {
-        this.id = id;
-        this.birthYear = birthYear;
-        this.fullName = fullName;
-    }
-
-    public List<Book> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Book> items) {
-        this.items = items;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getBirthYear() {
-        return birthYear;
-    }
-
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 }
