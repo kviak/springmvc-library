@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +21,12 @@ public class Book {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "was_issued")
+    private Date dateOfIssue;
+
+    @Transient
+    private boolean dateOfReturnExceed;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min=1, max=100, message = "Name length should be between 1 and 100 characters")
