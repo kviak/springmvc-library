@@ -11,6 +11,12 @@
 
 <div th:if="${owner}">
     <span>Book now have: </span> <span th:text="${owner.getFullName()}">Person name</span>
+    <span>Date of issue: </span> <span th:text="${book.getDateOfIssue()}">Person name</span>
+
+    <div th:switch="${book.isDateOfReturnExceed()}">
+        <p th:case="true" style="color: red">Time limit book Exceeded!</p>
+        <p th:case="false" style="color: green">You have time. Don't worry</p>
+    </div>
 
     <form th:method="PATCH" th:action="@{/book/{id}/release(id=${book.getId()})}">
         <input type="submit" value="free book"/>

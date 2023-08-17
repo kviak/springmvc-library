@@ -33,6 +33,6 @@ public class Person {
     @Column(name = "fullname")
     private String fullName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner") // Изменить на lazy.
+    @OneToMany(mappedBy = "owner")
     private List<Book> items;
 }

@@ -1,6 +1,7 @@
 package ru.kviak.springlibrary.services;
 
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kviak.springlibrary.models.Book;
@@ -47,6 +48,7 @@ public class PeopleService {
     @Transactional
     public List<Book> showPersonBook(int id){
         Optional<Person> opt = peopleRepository.findById(id);
-        return opt.map(Person::getItems).orElse(null);
+        Hibernate.initialize(opt.orElse(new Person()).getItems());
+        return opt.orElse(new Person()).getItems();
     }
 }

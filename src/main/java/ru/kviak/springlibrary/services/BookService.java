@@ -9,6 +9,8 @@ import ru.kviak.springlibrary.models.Book;
 import ru.kviak.springlibrary.models.Person;
 import ru.kviak.springlibrary.repositories.BookRepository;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +31,17 @@ public class BookService{
             else return bookRepository.findAll(PageRequest.of(page, perBooks)).getContent();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<Book> findById(int id){
-        return bookRepository.findById(id);
+        Optional<Book> book = bookRepository.findById(id);
+        Optional<Date> opt = Optional.ofNullable(book.orElse(new Book()).getDateOfIssue());
+        Calendar issuesDate = Calendar.getInstance();
+            if (opt.isPresent()){
+                issuesDate.setTime(opt.get());
+                issuesDate.add(Calendar.DAY_OF_YEAR, 10); // IF (issueDate+10day < today) THEN ReturnExceed.set(true)
+            }
+            book.orElse(new Book()).setDateOfReturnExceed(issuesDate.getTime().before(new Date()));
+        return book;
     }
 
     @Transactional
@@ -48,7 +58,8 @@ public class BookService{
     @Transactional
     public void set(int bookId, Person newOwner){
         Optional<Book> foundBook = bookRepository.findById(bookId);
-        foundBook.orElse(null).setOwner(newOwner);
+        foundBook.orElse(new Book()).setDateOfIssue(Calendar.getInstance().getTime());
+        foundBook.orElse(new Book()).setOwner(newOwner);
     }
 
     @Transactional
